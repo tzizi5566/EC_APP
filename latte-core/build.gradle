@@ -39,4 +39,11 @@ dependencies {
   //ButterKnife
   compile 'com.jakewharton:butterknife:8.8.0'
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
+  //Retrofit
+  compile 'com.squareup.okio:okio:1.13.0'
+  compile 'com.squareup.okhttp3:okhttp:3.8.1'
+  compile 'com.squareup.retrofit2:retrofit:2.3.0'
+  compile 'com.squareup.retrofit2:converter-scalars:2.3.0'
+  //loading
+  compile 'com.wang.avi:library:2.1.3'
 }
