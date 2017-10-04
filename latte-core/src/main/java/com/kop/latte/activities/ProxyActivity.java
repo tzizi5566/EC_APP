@@ -6,6 +6,8 @@ import android.support.v7.widget.ContentFrameLayout;
 import com.kop.latte.R;
 import com.kop.latte.delegates.LatteDelegate;
 import me.yokeyword.fragmentation.SupportActivity;
+import me.yokeyword.fragmentation.anim.DefaultNoAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 /**
  * 功    能: //TODO
@@ -13,6 +15,8 @@ import me.yokeyword.fragmentation.SupportActivity;
  * 创建日期: 2017/8/7 20:51
  */
 public abstract class ProxyActivity extends SupportActivity {
+
+  private static final String TAG = "ProxyActivity";
 
   public abstract LatteDelegate setRootDelegate();
 
@@ -28,6 +32,11 @@ public abstract class ProxyActivity extends SupportActivity {
     if (savedInstanceState == null) {
       loadRootFragment(R.id.delegate_container, setRootDelegate());
     }
+  }
+
+  //取消Fragment转场动画
+  @Override public FragmentAnimator onCreateFragmentAnimator() {
+    return new DefaultNoAnimator();
   }
 
   @Override protected void onDestroy() {

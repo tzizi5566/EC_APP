@@ -5,7 +5,7 @@ import com.kop.latte.net.callback.IError;
 import com.kop.latte.net.callback.IFailure;
 import com.kop.latte.net.callback.IRequest;
 import com.kop.latte.net.callback.ISuccess;
-import com.kop.latte.ui.LoaderStyle;
+import com.kop.latte.ui.loader.LoaderStyle;
 import java.io.File;
 import java.util.Map;
 import java.util.WeakHashMap;

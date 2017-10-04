@@ -1,4 +1,4 @@
-package com.kop.latte.ui;
+package com.kop.latte.ui.loader;
 
 import android.content.Context;
 import com.wang.avi.AVLoadingIndicatorView;

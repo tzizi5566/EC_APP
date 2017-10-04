@@ -2,8 +2,8 @@ package com.kop.latte.net.callback;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import com.kop.latte.ui.LatteLoader;
-import com.kop.latte.ui.LoaderStyle;
+import com.kop.latte.ui.loader.LatteLoader;
+import com.kop.latte.ui.loader.LoaderStyle;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
