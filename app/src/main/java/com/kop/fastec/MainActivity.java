@@ -4,6 +4,7 @@ import android.widget.Toast;
 import com.kop.latte.activities.ProxyActivity;
 import com.kop.latte.delegates.LatteDelegate;
 import com.kop.latte.ec.launcher.LauncherDelegate;
+import com.kop.latte.ec.main.EcBottomDelegate;
 import com.kop.latte.ec.sign.ISignListener;
 import com.kop.latte.ec.sign.SignInDelegate;
 import com.kop.latte.ui.launcher.ILauncherListener;
@@ -19,6 +20,7 @@ public class MainActivity extends ProxyActivity implements ISignListener, ILaunc
 
   @Override public void onSignInSuccess() {
     Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
+    startWithPop(new EcBottomDelegate());
   }
 
   @Override public void onSignUpSuccess() {
@@ -28,12 +30,12 @@ public class MainActivity extends ProxyActivity implements ISignListener, ILaunc
   @Override public void onLauncherFinish(OnLauncherFinishTag tag) {
     switch (tag) {
       case SIGNED:
-        Toast.makeText(this, "启动结束，用户登录了", Toast.LENGTH_SHORT).show();
-        startWithPop(new ExampleDelegate());
+        //Toast.makeText(this, "启动结束，用户登录了", Toast.LENGTH_SHORT).show();
+        startWithPop(new EcBottomDelegate());
         break;
 
       case NOT_SIGNED:
-        Toast.makeText(this, "启动结束，用户没登录", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "启动结束，用户没登录", Toast.LENGTH_SHORT).show();
         startWithPop(new SignInDelegate());
         break;
 
