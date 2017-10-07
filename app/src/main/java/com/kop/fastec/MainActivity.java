@@ -1,6 +1,9 @@
 package com.kop.fastec;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
+import com.jaeger.library.StatusBarUtil;
 import com.kop.latte.activities.ProxyActivity;
 import com.kop.latte.delegates.LatteDelegate;
 import com.kop.latte.ec.launcher.LauncherDelegate;
@@ -13,6 +16,11 @@ import com.kop.latte.ui.launcher.OnLauncherFinishTag;
 public class MainActivity extends ProxyActivity implements ISignListener, ILauncherListener {
 
   private static final String TAG = "MainActivity";
+
+  @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    StatusBarUtil.setTransparentForImageViewInFragment(this, null);
+  }
 
   @Override public LatteDelegate setRootDelegate() {
     return new LauncherDelegate();

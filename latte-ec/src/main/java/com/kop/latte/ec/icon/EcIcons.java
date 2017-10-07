@@ -8,7 +8,7 @@ import com.joanzapata.iconify.Icon;
  * 创建日期: 2017/8/7 20:29
  */
 public enum EcIcons implements Icon {
-  icon_scan('\ue606'),
+  icon_scan('\ue602'),
   icon_ali_pay('\ue606');
 
   private char mChar;

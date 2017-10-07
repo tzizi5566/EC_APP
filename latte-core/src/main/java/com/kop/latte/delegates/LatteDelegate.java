@@ -6,4 +6,8 @@ package com.kop.latte.delegates;
  * 创建日期: 2017/8/7 21:11
  */
 public abstract class LatteDelegate extends PermissionCheckerDelegate {
+
+  public <T extends LatteDelegate> T getParentDelegate() {
+    return (T) getParentFragment();
+  }
 }

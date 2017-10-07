@@ -6,7 +6,7 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.kop.latte.app.Latte;
 import com.kop.latte.ec.database.DatabaseManager;
 import com.kop.latte.ec.icon.FontEcModule;
-import com.kop.latte.net.interceptors.DebugInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * 功    能: //TODO
@@ -21,7 +21,7 @@ public class ExampleApp extends Application {
         .withIcon(new FontAwesomeModule())
         .withIcon(new FontEcModule())
         .withApiHost("http://7xslu7.com1.z0.glb.clouddn.com/")
-        .withInterceptor(new DebugInterceptor("index", R.raw.test))
+        .withInterceptor(new HttpLoggingInterceptor())
         .configure();
     initStetho();
     DatabaseManager.getInstance().init(this);

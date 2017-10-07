@@ -17,7 +17,7 @@ import com.kop.latte.delegates.LatteDelegate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import me.yokeyword.fragmentation.SupportFragment;
+import me.yokeyword.fragmentation.ISupportFragment;
 
 /**
  * 功    能: //TODO
@@ -87,7 +87,7 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
       }
     }
 
-    final SupportFragment[] delegateArray = ITEM_DELEGATE.toArray(new SupportFragment[size]);
+    final ISupportFragment[] delegateArray = ITEM_DELEGATE.toArray(new ISupportFragment[size]);
     loadMultipleRootFragment(R.id.bottom_bar_delegate_container, mIndexDelegate, delegateArray);
   }
 

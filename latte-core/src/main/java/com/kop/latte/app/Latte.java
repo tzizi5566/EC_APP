@@ -1,6 +1,7 @@
 package com.kop.latte.app;
 
 import android.content.Context;
+import android.os.Handler;
 
 /**
  * 功    能: //TODO
@@ -26,5 +27,9 @@ public final class Latte {
 
   public static Context getApplicationContext() {
     return getConfiguration(ConfigKeys.APPLICATION_CONTEXT);
+  }
+
+  public static Handler getHandler() {
+    return getConfiguration(ConfigKeys.HANDLER);
   }
 }
