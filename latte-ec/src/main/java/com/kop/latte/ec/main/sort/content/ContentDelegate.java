@@ -25,6 +25,7 @@ public class ContentDelegate extends LatteDelegate {
   private static final String ARG_CONTENT_ID = "CONTENT_ID";
   private int mContentId = -1;
   private List<SectionBean> mData;
+  private SectionAdapter mAdapter;
 
   public static ContentDelegate newInstance(int contentId) {
     Bundle bundle = new Bundle();
@@ -54,19 +55,24 @@ public class ContentDelegate extends LatteDelegate {
 
   @Override public void onLazyInitView(@Nullable Bundle savedInstanceState) {
     super.onLazyInitView(savedInstanceState);
-    initData();
+    initData(mContentId);
   }
 
-  private void initData() {
+  public void initData(int contentId) {
     RestClient.builder()
-        .url("sort_content_data_" + mContentId + ".json")
+        .url("sort_content_data_" + contentId + ".json")
         .success(new ISuccess() {
           @Override public void onSuccess(String response) {
             mData = new SectionDataConverter().convert(response);
-            final SectionAdapter adapter =
-                new SectionAdapter(R.layout.item_section_content, R.layout.item_section_header,
-                    mData);
-            mRvListContent.setAdapter(adapter);
+            if (mAdapter == null) {
+              mAdapter = new SectionAdapter(
+                  R.layout.item_section_content,
+                  R.layout.item_section_header,
+                  mData);
+              mRvListContent.setAdapter(mAdapter);
+            } else {
+              mAdapter.setNewData(mData);
+            }
           }
         })
         .build()

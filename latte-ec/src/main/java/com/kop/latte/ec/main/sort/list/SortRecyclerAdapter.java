@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
-import com.kop.latte.delegates.LatteDelegate;
 import com.kop.latte.ec.R;
 import com.kop.latte.ec.main.sort.SortDelegate;
 import com.kop.latte.ec.main.sort.content.ContentDelegate;
@@ -66,7 +65,7 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
 
               final int contentId = getData().get(currentPosition).getField(MultipleFields.ID);
               int i = mRandom.nextInt(2) + 1;
-              showContent(i);
+              switchCpntent(i);
             }
           }
         });
@@ -90,15 +89,15 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
     }
   }
 
-  private void showContent(int contentId) {
-    final ContentDelegate contentDelegate = ContentDelegate.newInstance(contentId);
-    switchCpntent(contentDelegate);
-  }
+  //private void showContent(int contentId) {
+  //  final ContentDelegate contentDelegate = ContentDelegate.newInstance(contentId);
+  //  switchCpntent(contentDelegate);
+  //}
 
-  private void switchCpntent(ContentDelegate delegate) {
-    final LatteDelegate contentDelegate = DELEGATE.findChildFragment(ContentDelegate.class);
+  private void switchCpntent(int contentId) {
+    final ContentDelegate contentDelegate = DELEGATE.findChildFragment(ContentDelegate.class);
     if (contentDelegate != null) {
-      contentDelegate.replaceFragment(delegate, false);
+      contentDelegate.initData(contentId);
     }
   }
 }
