@@ -11,5 +11,7 @@ public enum ConfigKeys {
   CONFIG_READY,
   ICON,
   INTERCEPTOR,
-  HANDLER
+  HANDLER,
+  JAVASCRIPT_INTERFACE,
+  WEB_HOST
 }

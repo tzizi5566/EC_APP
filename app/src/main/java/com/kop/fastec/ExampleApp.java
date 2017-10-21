@@ -3,10 +3,11 @@ package com.kop.fastec;
 import android.app.Application;
 import com.facebook.stetho.Stetho;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.kop.fastec.event.TestEvent;
 import com.kop.latte.app.Latte;
 import com.kop.latte.ec.database.DatabaseManager;
 import com.kop.latte.ec.icon.FontEcModule;
-import okhttp3.logging.HttpLoggingInterceptor;
+import com.kop.latte.net.rx.AddCookieInterceptor;
 
 /**
  * 功    能: //TODO
@@ -21,7 +22,10 @@ public class ExampleApp extends Application {
         .withIcon(new FontAwesomeModule())
         .withIcon(new FontEcModule())
         .withApiHost("http://7xslu7.com1.z0.glb.clouddn.com/")
-        .withInterceptor(new HttpLoggingInterceptor())
+        .withWebHost("https://www.baidu.com/")
+        .withInterceptor(new AddCookieInterceptor())//添加cookie同步拦截器
+        .withJavascriptInterface("latte")
+        .withWebEvent("test", new TestEvent())
         .configure();
     initStetho();
     DatabaseManager.getInstance().init(this);

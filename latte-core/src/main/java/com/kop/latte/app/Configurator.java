@@ -1,13 +1,17 @@
 package com.kop.latte.app;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import com.joanzapata.iconify.IconFontDescriptor;
 import com.joanzapata.iconify.Iconify;
+import com.kop.latte.delegates.web.event.Event;
+import com.kop.latte.delegates.web.event.EventManager;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import okhttp3.Interceptor;
+import org.greenrobot.greendao.annotation.NotNull;
 
 /**
  * 功    能: //TODO
@@ -72,6 +76,22 @@ public class Configurator {
   public final Configurator withInterceptors(ArrayList<Interceptor> interceptors) {
     INTERCEPTORS.addAll(interceptors);
     LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS);
+    return this;
+  }
+
+  public final Configurator withJavascriptInterface(@NotNull String name) {
+    LATTE_CONFIGS.put(ConfigKeys.JAVASCRIPT_INTERFACE, name);
+    return this;
+  }
+
+  public final Configurator withWebEvent(@NotNull String name, @NonNull Event event) {
+    final EventManager eventManager = EventManager.getInstance();
+    eventManager.addEvent(name, event);
+    return this;
+  }
+
+  public final Configurator withWebHost(String host) {
+    LATTE_CONFIGS.put(ConfigKeys.WEB_HOST, host);
     return this;
   }
 
