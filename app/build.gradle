@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion 25
-  buildToolsVersion "25.0.3"
+  buildToolsVersion '26.0.2'
   defaultConfig {
     applicationId "com.kop.fastec"
     minSdkVersion 19
@@ -29,6 +29,6 @@ dependencies {
   compile project(':latte-ec')
   annotationProcessor project(':latte-compiler')
   //FaceBook
-  compile 'com.facebook.stetho:stetho:1.4.2'
-  compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
+  compile 'com.facebook.stetho:stetho:1.5.0'
+  compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 }

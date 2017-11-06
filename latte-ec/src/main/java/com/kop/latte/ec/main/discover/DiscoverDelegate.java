@@ -6,6 +6,7 @@ import android.view.View;
 import com.kop.latte.delegates.bottom.BottomItemDelegate;
 import com.kop.latte.delegates.web.WebDelegateImpl;
 import com.kop.latte.ec.R;
+import me.yokeyword.fragmentation.SupportHelper;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
@@ -26,9 +27,14 @@ public class DiscoverDelegate extends BottomItemDelegate {
 
   @Override public void onLazyInitView(@Nullable Bundle savedInstanceState) {
     super.onLazyInitView(savedInstanceState);
-    final WebDelegateImpl delegate = WebDelegateImpl.create("index.html");
-    delegate.setTopDelegate(this.getParentDelegate());
-    loadRootFragment(R.id.web_discovery_container, delegate);
+    final WebDelegateImpl webDelegate =
+        SupportHelper.findFragment(getChildFragmentManager(), WebDelegateImpl.class);
+
+    if (webDelegate == null) {
+      final WebDelegateImpl delegate = WebDelegateImpl.create("index.html");
+      delegate.setTopDelegate(this.getParentDelegate());
+      getSupportDelegate().loadRootFragment(R.id.web_discovery_container, delegate);
+    }
   }
 
   @Override public FragmentAnimator onCreateFragmentAnimator() {

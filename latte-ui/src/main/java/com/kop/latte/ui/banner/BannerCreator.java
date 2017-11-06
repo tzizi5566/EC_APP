@@ -3,7 +3,7 @@ package com.kop.latte.ui.banner;
 import com.ToxicBakery.viewpager.transforms.DefaultTransformer;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
-import com.kop.latte.R;
+import com.kop.latte.ui.R;
 import java.util.ArrayList;
 
 /**

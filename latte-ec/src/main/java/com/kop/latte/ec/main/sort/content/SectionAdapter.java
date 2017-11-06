@@ -19,6 +19,7 @@ public class SectionAdapter extends BaseSectionQuickAdapter<SectionBean, BaseVie
   private static final RequestOptions OPTIONS =
       new RequestOptions()
           .diskCacheStrategy(DiskCacheStrategy.ALL)
+          .centerCrop()
           .dontAnimate();
 
   /**

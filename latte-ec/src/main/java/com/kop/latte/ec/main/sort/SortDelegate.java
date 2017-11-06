@@ -7,6 +7,7 @@ import com.kop.latte.delegates.bottom.BottomItemDelegate;
 import com.kop.latte.ec.R;
 import com.kop.latte.ec.main.sort.content.ContentDelegate;
 import com.kop.latte.ec.main.sort.list.VerticalListDelegate;
+import me.yokeyword.fragmentation.SupportHelper;
 
 /**
  * 功    能: //TODO
@@ -25,10 +26,16 @@ public class SortDelegate extends BottomItemDelegate {
 
   @Override public void onLazyInitView(@Nullable Bundle savedInstanceState) {
     super.onLazyInitView(savedInstanceState);
-    if (savedInstanceState == null) {
-      final VerticalListDelegate verticalListDelegate = new VerticalListDelegate();
-      loadRootFragment(R.id.vertical_list_container, verticalListDelegate);
-      loadRootFragment(R.id.sort_content_container, ContentDelegate.newInstance(1));
+    final VerticalListDelegate verticalListDelegate =
+        SupportHelper.findFragment(getChildFragmentManager(), VerticalListDelegate.class);
+    final ContentDelegate contentDelegate =
+        SupportHelper.findFragment(getChildFragmentManager(), ContentDelegate.class);
+
+    if (verticalListDelegate == null && contentDelegate == null) {
+      final VerticalListDelegate delegate = new VerticalListDelegate();
+      getSupportDelegate().loadRootFragment(R.id.vertical_list_container, delegate);
+      getSupportDelegate().loadRootFragment(R.id.sort_content_container,
+          ContentDelegate.newInstance(1));
     }
   }
 }

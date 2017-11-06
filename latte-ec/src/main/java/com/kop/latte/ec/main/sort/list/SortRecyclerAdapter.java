@@ -14,6 +14,7 @@ import com.kop.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.kop.latte.ui.recycler.MultipleViewHolder;
 import java.util.List;
 import java.util.Random;
+import me.yokeyword.fragmentation.SupportHelper;
 
 /**
  * 功    能: //TODO
@@ -32,7 +33,7 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
    *
    * @param data A new list is created out of this one to avoid mutable list
    */
-  protected SortRecyclerAdapter(List<MultipleItemEntity> data, SortDelegate sortDelegate) {
+  SortRecyclerAdapter(List<MultipleItemEntity> data, SortDelegate sortDelegate) {
     super(data);
     this.DELEGATE = sortDelegate;
     //添加垂直菜单布局
@@ -95,7 +96,9 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
   //}
 
   private void switchCpntent(int contentId) {
-    final ContentDelegate contentDelegate = DELEGATE.findChildFragment(ContentDelegate.class);
+    final ContentDelegate contentDelegate =
+        SupportHelper.findFragment(DELEGATE.getChildFragmentManager(), ContentDelegate.class);
+
     if (contentDelegate != null) {
       contentDelegate.initData(contentId);
     }

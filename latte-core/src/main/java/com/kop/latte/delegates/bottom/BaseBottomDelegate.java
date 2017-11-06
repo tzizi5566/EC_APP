@@ -32,10 +32,10 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
   private final ArrayList<BottomItemDelegate> ITEM_DELEGATE = new ArrayList<>();
   private final LinkedHashMap<BottomTabBean, BottomItemDelegate> ITEMS = new LinkedHashMap<>();
   private int mCurrentDelegate = 0;
-  private int mIndexDelegate = 0;
   private int mClickedColor = Color.RED;
 
   public abstract LinkedHashMap<BottomTabBean, BottomItemDelegate> setItems(ItemBuilder builder);
+  public abstract LinkedHashMap<BottomTabBean, BottomItemDelegate> getItems(ItemBuilder builder);
 
   public abstract int setIndexDelegate();
 
@@ -48,14 +48,21 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mIndexDelegate = setIndexDelegate();
+    mCurrentDelegate = setIndexDelegate();
     if (setClickedColor() != 0) {
       mClickedColor = setClickedColor();
     }
 
-    final ItemBuilder builder = ItemBuilder.builder();
-    final LinkedHashMap<BottomTabBean, BottomItemDelegate> items = setItems(builder);
-    ITEMS.putAll(items);
+    if (savedInstanceState != null) {
+      mCurrentDelegate = savedInstanceState.getInt("mCurrentDelegate");
+      final ItemBuilder builder = ItemBuilder.builder();
+      final LinkedHashMap<BottomTabBean, BottomItemDelegate> items = getItems(builder);
+      ITEMS.putAll(items);
+    } else {
+      final ItemBuilder builder = ItemBuilder.builder();
+      final LinkedHashMap<BottomTabBean, BottomItemDelegate> items = setItems(builder);
+      ITEMS.putAll(items);
+    }
 
     for (Map.Entry<BottomTabBean, BottomItemDelegate> entry : ITEMS.entrySet()) {
       final BottomTabBean key = entry.getKey();
@@ -81,14 +88,16 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
       //初始化数据
       itemIcon.setText(bean.getIcon());
       itemTitle.setText(bean.getTitle());
-      if (i == mIndexDelegate) {
+      if (i == mCurrentDelegate) {
         itemIcon.setTextColor(mClickedColor);
         itemTitle.setTextColor(mClickedColor);
       }
     }
 
-    final ISupportFragment[] delegateArray = ITEM_DELEGATE.toArray(new ISupportFragment[size]);
-    loadMultipleRootFragment(R.id.bottom_bar_delegate_container, mIndexDelegate, delegateArray);
+    if (savedInstanceState == null) {
+      final ISupportFragment[] delegateArray = ITEM_DELEGATE.toArray(new ISupportFragment[size]);
+      getSupportDelegate().loadMultipleRootFragment(R.id.bottom_bar_delegate_container, mCurrentDelegate, delegateArray);
+    }
   }
 
   private void resetColor() {
@@ -110,8 +119,13 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
     final AppCompatTextView itemTitle = (AppCompatTextView) item.getChildAt(1);
     itemIcon.setTextColor(mClickedColor);
     itemTitle.setTextColor(mClickedColor);
-    showHideFragment(ITEM_DELEGATE.get(tag), ITEM_DELEGATE.get(mCurrentDelegate));
+    getSupportDelegate().showHideFragment(ITEM_DELEGATE.get(tag), ITEM_DELEGATE.get(mCurrentDelegate));
     //注意先后顺序
     mCurrentDelegate = tag;
+  }
+
+  @Override public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putInt("mCurrentDelegate", mCurrentDelegate);
   }
 }

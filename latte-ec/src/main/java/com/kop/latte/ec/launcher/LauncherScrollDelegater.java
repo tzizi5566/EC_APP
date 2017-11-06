@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class LauncherScrollDelegater extends LatteDelegate implements OnItemClickListener {
 
   private ConvenientBanner<Integer> mConvenientBanner = null;
-  private static final ArrayList<Integer> INTEGERS = new ArrayList<>();
+  private final ArrayList<Integer> INTEGERS = new ArrayList<>();
   private ILauncherListener mILauncherListener;
 
   private void initBanner() {

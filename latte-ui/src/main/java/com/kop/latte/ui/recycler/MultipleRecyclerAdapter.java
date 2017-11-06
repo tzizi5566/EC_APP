@@ -10,7 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.kop.latte.R;
+import com.kop.latte.ui.R;
 import com.kop.latte.ui.banner.BannerCreator;
 import java.util.ArrayList;
 import java.util.List;
