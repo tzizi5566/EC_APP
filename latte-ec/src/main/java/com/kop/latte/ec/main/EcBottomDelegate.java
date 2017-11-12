@@ -8,6 +8,7 @@ import com.kop.latte.delegates.bottom.ItemBuilder;
 import com.kop.latte.ec.main.cart.ShopCartDelegate;
 import com.kop.latte.ec.main.discover.DiscoverDelegate;
 import com.kop.latte.ec.main.index.IndexDelegate;
+import com.kop.latte.ec.main.personal.PersonalDelegate;
 import com.kop.latte.ec.main.sort.SortDelegate;
 import java.util.LinkedHashMap;
 import me.yokeyword.fragmentation.SupportHelper;
@@ -25,7 +26,7 @@ public class EcBottomDelegate extends BaseBottomDelegate {
     items.put(new BottomTabBean("{fa-sort}", "分类"), new SortDelegate());
     items.put(new BottomTabBean("{fa-compass}", "发现"), new DiscoverDelegate());
     items.put(new BottomTabBean("{fa-shopping-cart}", "购物车"), new ShopCartDelegate());
-    //items.put(new BottomTabBean("{fa-user}", "我的"), new IndexDelegate());
+    items.put(new BottomTabBean("{fa-user}", "我的"), new PersonalDelegate());
     return builder.addItems(items).build();
   }
 
@@ -39,13 +40,14 @@ public class EcBottomDelegate extends BaseBottomDelegate {
         SupportHelper.findFragment(getChildFragmentManager(), DiscoverDelegate.class);
     final ShopCartDelegate shopCartDelegate =
         SupportHelper.findFragment(getChildFragmentManager(), ShopCartDelegate.class);
-    //final IndexDelegate personalDelegate = findChildFragment(IndexDelegate.class);
+    final PersonalDelegate personalDelegate =
+        SupportHelper.findFragment(getChildFragmentManager(), PersonalDelegate.class);
 
     items.put(new BottomTabBean("{fa-home}", "主页"), indexDelegate);
     items.put(new BottomTabBean("{fa-sort}", "分类"), sortDelegate);
     items.put(new BottomTabBean("{fa-compass}", "发现"), discoverDelegate);
     items.put(new BottomTabBean("{fa-shopping-cart}", "购物车"), shopCartDelegate);
-    //items.put(new BottomTabBean("{fa-user}", "我的"), personalDelegate);
+    items.put(new BottomTabBean("{fa-user}", "我的"), personalDelegate);
     return builder.addItems(items).build();
   }
 

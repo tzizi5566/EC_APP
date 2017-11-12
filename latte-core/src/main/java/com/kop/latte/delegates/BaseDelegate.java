@@ -1,7 +1,6 @@
 package com.kop.latte.delegates;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.kop.latte.activities.ProxyActivity;
@@ -24,38 +24,14 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
  */
 public abstract class BaseDelegate extends Fragment implements ISupportFragment {
 
-  private final SupportFragmentDelegate DELEGATE = new SupportFragmentDelegate(this);
+  final SupportFragmentDelegate DELEGATE = new SupportFragmentDelegate(this);
   protected FragmentActivity _mActivity = null;
+
   private Unbinder mUnbinder = null;
 
   public abstract Object setLayout();
 
   public abstract void onBindView(@Nullable Bundle savedInstanceState, @Nullable View rootView);
-
-  @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
-    DELEGATE.onAttach((Activity) context);
-    _mActivity = DELEGATE.getActivity();
-  }
-
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    DELEGATE.onCreate(savedInstanceState);
-  }
-
-  @Override
-  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    DELEGATE.onActivityCreated(savedInstanceState);
-  }
-
-  @Override
-  public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    DELEGATE.onSaveInstanceState(outState);
-  }
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -80,6 +56,46 @@ public abstract class BaseDelegate extends Fragment implements ISupportFragment 
   }
 
   @Override
+  public SupportFragmentDelegate getSupportDelegate() {
+    return DELEGATE;
+  }
+
+  @Override
+  public ExtraTransaction extraTransaction() {
+    return DELEGATE.extraTransaction();
+  }
+
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    DELEGATE.onAttach(activity);
+    _mActivity = DELEGATE.getActivity();
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    DELEGATE.onCreate(savedInstanceState);
+  }
+
+  @Override
+  public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+    return DELEGATE.onCreateAnimation(transit, enter, nextAnim);
+  }
+
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    DELEGATE.onActivityCreated(savedInstanceState);
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    DELEGATE.onSaveInstanceState(outState);
+  }
+
+  @Override
   public void onResume() {
     super.onResume();
     DELEGATE.onResume();
@@ -89,6 +105,21 @@ public abstract class BaseDelegate extends Fragment implements ISupportFragment 
   public void onPause() {
     super.onPause();
     DELEGATE.onPause();
+  }
+
+  @Override
+  public void onDestroyView() {
+    DELEGATE.onDestroyView();
+    super.onDestroyView();
+    if (mUnbinder != null) {
+      mUnbinder.unbind();
+    }
+  }
+
+  @Override
+  public void onDestroy() {
+    DELEGATE.onDestroy();
+    super.onDestroy();
   }
 
   @Override
@@ -104,30 +135,12 @@ public abstract class BaseDelegate extends Fragment implements ISupportFragment 
   }
 
   @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    if (mUnbinder != null) {
-      mUnbinder.unbind();
-    }
-  }
-
-  @Override
-  public SupportFragmentDelegate getSupportDelegate() {
-    return DELEGATE;
-  }
-
-  @Override
-  public ExtraTransaction extraTransaction() {
-    return DELEGATE.extraTransaction();
-  }
-
-  @Override
   public void enqueueAction(Runnable runnable) {
     DELEGATE.enqueueAction(runnable);
   }
 
   @Override
-  public void onEnterAnimationEnd(@Nullable Bundle savedInstanceState) {
+  public void onEnterAnimationEnd(Bundle savedInstanceState) {
     DELEGATE.onEnterAnimationEnd(savedInstanceState);
   }
 
@@ -146,8 +159,7 @@ public abstract class BaseDelegate extends Fragment implements ISupportFragment 
     DELEGATE.onSupportInvisible();
   }
 
-  @Override
-  public boolean isSupportVisible() {
+  @Override final public boolean isSupportVisible() {
     return DELEGATE.isSupportVisible();
   }
 
@@ -164,6 +176,11 @@ public abstract class BaseDelegate extends Fragment implements ISupportFragment 
   @Override
   public void setFragmentAnimator(FragmentAnimator fragmentAnimator) {
     DELEGATE.setFragmentAnimator(fragmentAnimator);
+  }
+
+  @Override
+  public boolean onBackPressedSupport() {
+    return DELEGATE.onBackPressedSupport();
   }
 
   @Override
@@ -184,10 +201,5 @@ public abstract class BaseDelegate extends Fragment implements ISupportFragment 
   @Override
   public void putNewBundle(Bundle newBundle) {
     DELEGATE.putNewBundle(newBundle);
-  }
-
-  @Override
-  public boolean onBackPressedSupport() {
-    return DELEGATE.onBackPressedSupport();
   }
 }

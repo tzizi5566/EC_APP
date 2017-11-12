@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+  <android.support.v7.widget.Toolbar
+      android:layout_width="match_parent"
+      android:layout_height="70dp"
+      android:background="@color/app_main"
+      android:gravity="center"
+      android:paddingTop="@dimen/statusbar_view_height"
+      android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+      app:contentInsetStart="0dp"
+      app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+      >
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="App简介"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        tools:ignore="HardcodedText"
+        />
+  </android.support.v7.widget.Toolbar>
+
+  <android.support.v7.widget.AppCompatTextView
+      android:id="@+id/tv_info"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="top|left"
+      android:padding="20dp"
+      android:textColor="@android:color/darker_gray"
+      android:textSize="18sp"
+      tools:ignore="RtlHardcoded"
+      />
+
+</android.support.v7.widget.LinearLayoutCompat>

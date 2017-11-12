@@ -10,6 +10,16 @@ android {
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    ndk {
+      abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+    }
+
+    manifestPlaceholders = [
+        JPUSH_PKGNAME : applicationId,
+        JPUSH_APPKEY : "4a55b606561438c65eef4a93",
+        JPUSH_CHANNEL : "developer-default",
+    ]
   }
   buildTypes {
     release {
@@ -31,4 +41,7 @@ dependencies {
   //FaceBook
   compile 'com.facebook.stetho:stetho:1.5.0'
   compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+  //JPush
+  compile 'cn.jiguang.sdk:jpush:3.0.9'
+  compile 'cn.jiguang.sdk:jcore:1.1.7'
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public abstract class DataConverter {
 
+  protected final ArrayList<MultipleItemEntity> ENTITIES = new ArrayList<>();
   private String mJsonData = null;
 
   public abstract ArrayList<MultipleItemEntity> convert();
@@ -23,5 +24,9 @@ public abstract class DataConverter {
       throw new NullPointerException("DATA IS NULL!");
     }
     return mJsonData;
+  }
+
+  public void clearData(){
+    ENTITIES.clear();
   }
 }

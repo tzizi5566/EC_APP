@@ -7,12 +7,27 @@
     android:layout_weight="10"
     >
 
+  <com.joanzapata.iconify.widget.IconTextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_above="@+id/tv_stub_to_buy"
+      android:layout_centerInParent="true"
+      android:layout_marginTop="10dp"
+      android:gravity="center"
+      android:text="{fa-cart-plus}"
+      android:textColor="@color/app_main"
+      android:textSize="40sp"
+      tools:ignore="HardcodedText"
+      />
+
   <android.support.v7.widget.AppCompatTextView
       android:id="@+id/tv_stub_to_buy"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_centerInParent="true"
-      android:text="去购物吧！"
+      android:layout_marginTop="10dp"
+      android:gravity="center"
+      android:text="赶紧去购物吧..."
       android:textColor="@color/app_main"
       android:textSize="20sp"
       tools:ignore="HardcodedText"

@@ -30,8 +30,8 @@ public class MultipleRecyclerAdapter
   private static final RequestOptions REQUEST_OPTIONS =
       new RequestOptions()
           .centerCrop()
-          .diskCacheStrategy(DiskCacheStrategy.ALL)
-          .dontAnimate();
+          .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+          .dontTransform();
 
   /**
    * Same as QuickAdapter#QuickAdapter(Context,int) but with

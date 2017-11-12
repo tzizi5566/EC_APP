@@ -5,12 +5,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.Toast;
 import butterknife.BindView;
 import com.kop.latte.delegates.LatteDelegate;
 import com.kop.latte.ec.R;
 import com.kop.latte.ec.R2;
-import com.kop.latte.net.RestClient;
-import com.kop.latte.net.callback.ISuccess;
+import com.kop.latte.net.rx.RxRestClient;
+import com.kop.latte.ui.loader.LatteLoader;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 
 /**
@@ -59,11 +64,20 @@ public class ContentDelegate extends LatteDelegate {
   }
 
   public void initData(int contentId) {
-    RestClient.builder()
+    RxRestClient.builder()
+        .loader(getContext())
         .url("sort_content_data_" + contentId + ".json")
-        .success(new ISuccess() {
-          @Override public void onSuccess(String response) {
-            mData = new SectionDataConverter().convert(response);
+        .build()
+        .get()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Observer<String>() {
+          @Override public void onSubscribe(Disposable d) {
+
+          }
+
+          @Override public void onNext(String s) {
+            mData = new SectionDataConverter().convert(s);
             if (mAdapter == null) {
               mAdapter = new SectionAdapter(
                   R.layout.item_section_content,
@@ -74,8 +88,15 @@ public class ContentDelegate extends LatteDelegate {
               mAdapter.setNewData(mData);
             }
           }
-        })
-        .build()
-        .get();
+
+          @Override public void onError(Throwable e) {
+            LatteLoader.stopLoading();
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+          }
+
+          @Override public void onComplete() {
+            LatteLoader.stopLoading();
+          }
+        });
   }
 }

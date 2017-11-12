@@ -6,6 +6,7 @@ package com.kop.latte.ec.main.cart;
  * 创建日期: 2017/10/6 17:33
  */
 public enum ShopCartItemFields {
+
   TITLE,
   DESC,
   COUNT,

@@ -14,6 +14,9 @@ import com.joanzapata.iconify.widget.IconTextView;
 import com.kop.latte.R;
 import com.kop.latte.R2;
 import com.kop.latte.delegates.LatteDelegate;
+import com.kop.latte.util.callback.CallbackManager;
+import com.kop.latte.util.callback.CallbackType;
+import com.kop.latte.util.callback.IGlobalCallback;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,6 +38,7 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
   private int mClickedColor = Color.RED;
 
   public abstract LinkedHashMap<BottomTabBean, BottomItemDelegate> setItems(ItemBuilder builder);
+
   public abstract LinkedHashMap<BottomTabBean, BottomItemDelegate> getItems(ItemBuilder builder);
 
   public abstract int setIndexDelegate();
@@ -96,8 +100,19 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
 
     if (savedInstanceState == null) {
       final ISupportFragment[] delegateArray = ITEM_DELEGATE.toArray(new ISupportFragment[size]);
-      getSupportDelegate().loadMultipleRootFragment(R.id.bottom_bar_delegate_container, mCurrentDelegate, delegateArray);
+      getSupportDelegate().loadMultipleRootFragment(R.id.bottom_bar_delegate_container,
+          mCurrentDelegate, delegateArray);
     }
+
+    CallbackManager.getInstance()
+        .addCallback(CallbackType.SHOP_CART_TO_INDEX, new IGlobalCallback<Integer>() {
+          @Override public void executeCallback(Integer args) {
+            resetColor();
+
+            View childView = mBottomBar.getChildAt(args);
+            mCurrentDelegate = setItemColor(childView);
+          }
+        });
   }
 
   private void resetColor() {
@@ -112,16 +127,24 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
   }
 
   @Override public void onClick(View v) {
-    final int tag = (int) v.getTag();
     resetColor();
+
+    final int tag = setItemColor(v);
+    getSupportDelegate().showHideFragment(ITEM_DELEGATE.get(tag),
+        ITEM_DELEGATE.get(mCurrentDelegate));
+    //注意先后顺序
+    mCurrentDelegate = tag;
+  }
+
+  //设置底部item颜色
+  private int setItemColor(View v) {
+    final int tag = (int) v.getTag();
     final RelativeLayout item = (RelativeLayout) v;
     final IconTextView itemIcon = (IconTextView) item.getChildAt(0);
     final AppCompatTextView itemTitle = (AppCompatTextView) item.getChildAt(1);
     itemIcon.setTextColor(mClickedColor);
     itemTitle.setTextColor(mClickedColor);
-    getSupportDelegate().showHideFragment(ITEM_DELEGATE.get(tag), ITEM_DELEGATE.get(mCurrentDelegate));
-    //注意先后顺序
-    mCurrentDelegate = tag;
+    return tag;
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {

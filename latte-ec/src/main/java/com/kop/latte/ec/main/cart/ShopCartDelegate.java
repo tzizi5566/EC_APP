@@ -17,11 +17,20 @@ import com.kop.latte.app.Latte;
 import com.kop.latte.delegates.bottom.BottomItemDelegate;
 import com.kop.latte.ec.R;
 import com.kop.latte.ec.R2;
-import com.kop.latte.net.RestClient;
-import com.kop.latte.net.callback.ISuccess;
+import com.kop.latte.ec.main.index.IndexDelegate;
+import com.kop.latte.net.rx.RxRestClient;
+import com.kop.latte.ui.loader.LatteLoader;
 import com.kop.latte.ui.recycler.MultipleItemEntity;
+import com.kop.latte.util.callback.CallbackManager;
+import com.kop.latte.util.callback.CallbackType;
+import com.kop.latte.util.callback.IGlobalCallback;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.List;
+import me.yokeyword.fragmentation.SupportHelper;
 
 /**
  * 功    能: //TODO
@@ -31,8 +40,8 @@ import java.util.List;
 public class ShopCartDelegate extends BottomItemDelegate
     implements ShopCartAdapter.OnSelectedAll, ICartItemListener {
 
-  @BindView(R2.id.tv_top_shop_cart_clear) AppCompatTextView mTvTopShopCartClear;
-  @BindView(R2.id.tv_top_shop_cart_remove_selected) AppCompatTextView mTvTopShopCartRemoveSelected;
+  @BindView(R2.id.tv_top_shop_cart_clear) IconTextView mTvTopShopCartClear;
+  @BindView(R2.id.tv_top_shop_cart_remove_selected) IconTextView mTvTopShopCartRemoveSelected;
   @BindView(R2.id.rv_shop_cart) RecyclerView mRvShopCart;
   @BindView(R2.id.icon_shop_cart_select_all) IconTextView mIconShopCartSelectAll;
   @BindView(R2.id.stub_no_item) ViewStubCompat mStubNoItem;
@@ -142,7 +151,17 @@ public class ShopCartDelegate extends BottomItemDelegate
           (AppCompatTextView) stubView.findViewById(R.id.tv_stub_to_buy);
       tvToBuy.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View v) {
-          Toast.makeText(getContext(), "购物车为空！", Toast.LENGTH_SHORT).show();
+          IndexDelegate indexDelegate =
+              SupportHelper.findFragment(getParentFragment().getChildFragmentManager(),
+                  IndexDelegate.class);
+          getParentDelegate().getSupportDelegate()
+              .showHideFragment(indexDelegate, ShopCartDelegate.this);
+
+          @SuppressWarnings("unchecked") IGlobalCallback<Integer> callback =
+              CallbackManager.getInstance().getCallback(CallbackType.SHOP_CART_TO_INDEX);
+          if (callback != null) {
+            callback.executeCallback(0);
+          }
         }
       });
       mRvShopCart.setVisibility(View.GONE);
@@ -164,13 +183,21 @@ public class ShopCartDelegate extends BottomItemDelegate
 
   @Override public void onLazyInitView(@Nullable Bundle savedInstanceState) {
     super.onLazyInitView(savedInstanceState);
-    RestClient.builder()
-        .url("shop_cart_data.json")
+    RxRestClient.builder()
         .loader(getContext())
-        .success(new ISuccess() {
-          @Override public void onSuccess(String response) {
+        .url("shop_cart_data.json")
+        .build()
+        .get()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Observer<String>() {
+          @Override public void onSubscribe(Disposable d) {
+
+          }
+
+          @Override public void onNext(String s) {
             final ArrayList<MultipleItemEntity> data =
-                new ShopCartDataConverter().setJsonData(response).convert();
+                new ShopCartDataConverter().setJsonData(s).convert();
             if (mAdapter == null) {
               mAdapter = new ShopCartAdapter(data);
               mRvShopCart.setAdapter(mAdapter);
@@ -182,9 +209,16 @@ public class ShopCartDelegate extends BottomItemDelegate
 
             checkItemCount();
           }
-        })
-        .build()
-        .get();
+
+          @Override public void onError(Throwable e) {
+            LatteLoader.stopLoading();
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+          }
+
+          @Override public void onComplete() {
+            LatteLoader.stopLoading();
+          }
+        });
   }
 
   @Override public void selectedAll(int selectedCount) {

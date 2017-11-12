@@ -11,48 +11,20 @@ import com.kop.latte.delegates.LatteDelegate;
  */
 public abstract class BottomItemDelegate extends LatteDelegate {
 
-  private long mExitTime = 0;
-  private static final int EXIT_TIME = 2000;
+  // 再点一次退出程序时间设置
+  private static final long WAIT_TIME = 2000L;
+  private long TOUCH_TIME = 0;
 
-  //@Override public void onResume() {
-  //  super.onResume();
-  //  View view = getView();
-  //  if (view != null) {
-  //    view.setFocusableInTouchMode(true);
-  //    view.requestFocus();
-  //    view.setOnKeyListener(this);
-  //  }
-  //}
-
-  //@Override public boolean onKey(View v, int keyCode, KeyEvent event) {
-  //  if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-  //    if ((System.currentTimeMillis() - mExitTime) > EXIT_TIME) {
-  //      Toast.makeText(getContext(), "双击退出" + getString(R.string.app_name), Toast.LENGTH_SHORT)
-  //          .show();
-  //      mExitTime = System.currentTimeMillis();
-  //    } else {
-  //      _mActivity.finish();
-  //      if (mExitTime != 0) {
-  //        mExitTime = 0;
-  //      }
-  //    }
-  //
-  //    return true;
-  //  }
-  //
-  //  return false;
-  //}
-
-  @Override public boolean onBackPressedSupport() {
-    if ((System.currentTimeMillis() - mExitTime) > EXIT_TIME) {
-      Toast.makeText(getContext(), "双击退出" + getString(R.string.app_name), Toast.LENGTH_SHORT)
-          .show();
-      mExitTime = System.currentTimeMillis();
-    } else {
+  /**
+   * 处理回退事件
+   */
+  @Override
+  public boolean onBackPressedSupport() {
+    if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
       _mActivity.finish();
-      if (mExitTime != 0) {
-        mExitTime = 0;
-      }
+    } else {
+      TOUCH_TIME = System.currentTimeMillis();
+      Toast.makeText(_mActivity, R.string.press_again_exit, Toast.LENGTH_SHORT).show();
     }
     return true;
   }

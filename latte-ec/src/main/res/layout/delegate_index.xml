@@ -23,7 +23,7 @@
   <android.support.v7.widget.Toolbar
       android:id="@+id/tb_index"
       android:layout_width="match_parent"
-      android:layout_height="80dp"
+      android:layout_height="70dp"
       android:background="@android:color/transparent"
       android:paddingTop="@dimen/statusbar_view_height"
       android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -45,21 +45,22 @@
           android:gravity="center"
           android:text="{icon-scan}"
           android:textColor="@android:color/white"
-          android:textSize="20sp"
+          android:textSize="18sp"
           tools:ignore="HardcodedText"
           />
 
       <android.support.v7.widget.AppCompatEditText
           android:id="@+id/et_search_view"
           android:layout_width="0dp"
-          android:layout_height="36dp"
+          android:layout_height="30dp"
           android:layout_gravity="center"
           android:layout_weight="4"
           android:background="@android:color/white"
           android:gravity="center_vertical"
           android:hint="搜索"
           android:paddingLeft="5dp"
-          tools:ignore="HardcodedText"
+          android:textSize="16sp"
+          tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry"
           />
 
       <com.joanzapata.iconify.widget.IconTextView
@@ -68,9 +69,9 @@
           android:layout_height="match_parent"
           android:layout_weight="1"
           android:gravity="center"
-          android:text="{fa-bullhorn}"
+          android:text="{fa-commenting-o}"
           android:textColor="@android:color/white"
-          android:textSize="20sp"
+          android:textSize="18sp"
           tools:ignore="HardcodedText"
           />
 

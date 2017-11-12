@@ -20,7 +20,7 @@ public class LatteLoader {
 
   private static final String DEFALUT_LOADER = LoaderStyle.BallPulseIndicator.name();
 
-  public static void showLoading(Context context, String type) {
+  private static void showLoading(Context context, String type) {
     final AppCompatDialog dialog = new AppCompatDialog(context, R.style.dialog);
     final AVLoadingIndicatorView avLoadingIndicatorView = LoaderCreator.create(type, context);
     dialog.setContentView(avLoadingIndicatorView);

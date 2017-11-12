@@ -3,16 +3,21 @@ package com.kop.latte.ui.refresh;
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kop.latte.app.Latte;
-import com.kop.latte.net.RestClient;
-import com.kop.latte.net.callback.ISuccess;
+import com.kop.latte.net.rx.RxRestClient;
+import com.kop.latte.ui.loader.LatteLoader;
 import com.kop.latte.ui.recycler.DataConverter;
 import com.kop.latte.ui.recycler.MultipleItemEntity;
 import com.kop.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.kop.latte.util.log.LatteLogger;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 
 /**
@@ -66,16 +71,23 @@ public class RefreshHandler
   }
 
   public void firstPage(String url) {
-    BEAN.setDelayed(1000);
-    RestClient.builder()
-        .url(url)
+    RxRestClient.builder()
         .loader(mContext)
-        .success(new ISuccess() {
-          @Override public void onSuccess(String response) {
-            final JSONObject jsonObject = JSON.parseObject(response);
+        .url(url)
+        .build()
+        .get()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Observer<String>() {
+          @Override public void onSubscribe(Disposable d) {
+
+          }
+
+          @Override public void onNext(String s) {
+            final JSONObject jsonObject = JSON.parseObject(s);
             BEAN.setTotal(jsonObject.getInteger("total"))
                 .setPageSize(jsonObject.getInteger("page_size"));
-            mAdapter = MultipleRecyclerAdapter.create(CONVERTER.setJsonData(response));
+            mAdapter = MultipleRecyclerAdapter.create(CONVERTER.setJsonData(s));
             mAdapter.setOnLoadMoreListener(RefreshHandler.this, RECYCLERVIEW);
             RECYCLERVIEW.setAdapter(mAdapter);
             BEAN.addIndex();
@@ -83,9 +95,16 @@ public class RefreshHandler
               mOnDataFinish.onFinish();
             }
           }
-        })
-        .build()
-        .get();
+
+          @Override public void onError(Throwable e) {
+            LatteLoader.stopLoading();
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+          }
+
+          @Override public void onComplete() {
+            LatteLoader.stopLoading();
+          }
+        });
   }
 
   private void paging() {
@@ -97,21 +116,36 @@ public class RefreshHandler
     if (mAdapter.getData().size() < pageSize || currentCount >= total) {
       mAdapter.loadMoreEnd(true);
     } else {
-      RestClient.builder()
+      RxRestClient.builder()
           .url("index_2_data.json")
-          .success(new ISuccess() {
-            @Override public void onSuccess(String response) {
-              ArrayList<MultipleItemEntity> convert = CONVERTER.setJsonData(response).convert();
-              LatteLogger.d(convert.size());
-              mAdapter.addData(CONVERTER.setJsonData(response).convert());
+          .build()
+          .get()
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(new Observer<String>() {
+            @Override public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override public void onNext(String s) {
+              ArrayList<MultipleItemEntity> convert = CONVERTER.setJsonData(s).convert();
+              mAdapter.addData(CONVERTER.setJsonData(s).convert());
               //累加数量
               BEAN.setCurrentCount(mAdapter.getData().size());
               mAdapter.loadMoreComplete();
               BEAN.addIndex();
             }
-          })
-          .build()
-          .get();
+
+            @Override public void onError(Throwable e) {
+              LatteLoader.stopLoading();
+              mAdapter.loadMoreFail();
+              Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override public void onComplete() {
+              LatteLoader.stopLoading();
+            }
+          });
     }
   }
 

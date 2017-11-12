@@ -9,14 +9,19 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.kop.latte.delegates.LatteDelegate;
 import com.kop.latte.ec.R;
 import com.kop.latte.ec.R2;
-import com.kop.latte.net.RestClient;
-import com.kop.latte.net.callback.ISuccess;
+import com.kop.latte.net.rx.RxRestClient;
+import com.kop.latte.ui.loader.LatteLoader;
 import com.kop.latte.util.log.LatteLogger;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 功    能: //TODO
@@ -44,21 +49,37 @@ public class SignUpDelegate extends LatteDelegate {
 
   @OnClick(R2.id.btn_sign_up) void onClickSignUp() {
     if (checkForm()) {
-      RestClient.builder()
+      RxRestClient.builder()
+          .loader(getContext())
           .url("user_profile.json")
           .params("name", mEditSignUpName.getText().toString())
           .params("email", mEditSignUpEmail.getText().toString())
           .params("phone", mEditSignUpPhone.getText().toString())
           .params("password", mEditSignUpPassword.getText().toString())
-          .success(new ISuccess() {
-            @Override public void onSuccess(String response) {
-              LatteLogger.json("user_profile", response);
-              Log.i("user_profile", response);
-              SignHandler.onSignUp(response, mISignListener);
-            }
-          })
           .build()
-          .post();
+          .post()
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(new Observer<String>() {
+            @Override public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override public void onNext(String s) {
+              LatteLogger.json("user_profile", s);
+              Log.i("user_profile", s);
+              SignHandler.onSignUp(s, mISignListener);
+            }
+
+            @Override public void onError(Throwable e) {
+              LatteLoader.stopLoading();
+              Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override public void onComplete() {
+              LatteLoader.stopLoading();
+            }
+          });
     }
   }
 

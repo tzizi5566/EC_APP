@@ -21,6 +21,7 @@ import com.kop.latte.ec.main.EcBottomDelegate;
 import com.kop.latte.ui.recycler.BaseDecoration;
 import com.kop.latte.ui.recycler.RgbValue;
 import com.kop.latte.ui.refresh.RefreshHandler;
+import com.kop.latte.util.log.LatteLogger;
 
 /**
  * 功    能: //TODO
@@ -95,8 +96,12 @@ public class IndexDelegate extends BottomItemDelegate implements RefreshHandler.
                 super.onScrolled(recyclerView, dx, dy);
                 //增加滑动距离
                 mDistanceY += dy;
+                LatteLogger.d(mDistanceY);
                 //当滑动时，并且距离小于toolbar高度的时候，调整渐变色
                 if (mDistanceY > 0 && mDistanceY <= mTargetHeight) {
+                  if (!recyclerView.canScrollVertically(-1)) {
+                    mDistanceY = 0;
+                  }
                   final float scale = (float) mDistanceY / mTargetHeight;
                   final float alpha = scale * 255;
                   mTbIndex.setBackgroundColor(

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ContentFrameLayout;
+import android.view.MotionEvent;
 import com.kop.latte.R;
 import com.kop.latte.delegates.LatteDelegate;
 import me.yokeyword.fragmentation.ExtraTransaction;
@@ -18,7 +19,7 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
  */
 public abstract class ProxyActivity extends AppCompatActivity implements ISupportActivity {
 
-  private final SupportActivityDelegate DELEGATE = new SupportActivityDelegate(this);
+  final SupportActivityDelegate DELEGATE = new SupportActivityDelegate(this);
 
   public abstract LatteDelegate setRootDelegate();
 
@@ -33,15 +34,8 @@ public abstract class ProxyActivity extends AppCompatActivity implements ISuppor
     frameLayout.setId(R.id.delegate_container);
     setContentView(frameLayout);
     if (savedInstanceState == null) {
-      DELEGATE.loadRootFragment(R.id.delegate_container, setRootDelegate());
+      getSupportDelegate().loadRootFragment(R.id.delegate_container, setRootDelegate());
     }
-  }
-
-  @Override protected void onDestroy() {
-    DELEGATE.onDestroy();
-    super.onDestroy();
-    System.gc();
-    System.runFinalization();
   }
 
   @Override
@@ -52,6 +46,34 @@ public abstract class ProxyActivity extends AppCompatActivity implements ISuppor
   @Override
   public ExtraTransaction extraTransaction() {
     return DELEGATE.extraTransaction();
+  }
+
+  @Override
+  protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+    DELEGATE.onPostCreate(savedInstanceState);
+  }
+
+  @Override protected void onDestroy() {
+    DELEGATE.onDestroy();
+    super.onDestroy();
+    System.gc();
+    System.runFinalization();
+  }
+
+  @Override
+  public boolean dispatchTouchEvent(MotionEvent ev) {
+    return DELEGATE.dispatchTouchEvent(ev) || super.dispatchTouchEvent(ev);
+  }
+
+  @Override
+  final public void onBackPressed() {
+    DELEGATE.onBackPressed();
+  }
+
+  @Override
+  public void onBackPressedSupport() {
+    DELEGATE.onBackPressedSupport();
   }
 
   @Override
@@ -67,15 +89,5 @@ public abstract class ProxyActivity extends AppCompatActivity implements ISuppor
   @Override
   public FragmentAnimator onCreateFragmentAnimator() {
     return DELEGATE.onCreateFragmentAnimator();
-  }
-
-  @Override
-  public void onBackPressedSupport() {
-    DELEGATE.onBackPressedSupport();
-  }
-
-  @Override
-  public void onBackPressed() {
-    DELEGATE.onBackPressed();
   }
 }
