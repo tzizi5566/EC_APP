@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <declare-styleable name="AutoPhotoLayout">
+    <attr format="integer" name="max_count"/>
+    <attr format="dimension" name="item_margin"/>
+    <attr format="integer" name="line_count"/>
+    <attr format="dimension" name="icon_size"/>
+  </declare-styleable>
+
+</resources>

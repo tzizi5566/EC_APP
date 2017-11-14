@@ -20,7 +20,6 @@ import com.kop.latte.ec.main.personal.list.ListItemType;
 import com.kop.latte.ec.main.personal.order.OrderListDelegate;
 import com.kop.latte.ec.main.personal.profile.UserProfileDelegate;
 import com.kop.latte.ec.main.personal.settings.SettingsDelegate;
-import de.hdodenhof.circleimageview.CircleImageView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +30,6 @@ import java.util.List;
  */
 public class PersonalDelegate extends BottomItemDelegate {
 
-  @BindView(R2.id.img_user_avatar) CircleImageView mImgUserAvatar;
-  @BindView(R2.id.tv_all_order) AppCompatTextView mTvAllOrder;
   @BindView(R2.id.tv_all_account_arrow) IconTextView mTvAllAccountArrow;
   @BindView(R2.id.ll_pay) LinearLayoutCompat mLlPay;
   @BindView(R2.id.textView) AppCompatTextView mTextView;

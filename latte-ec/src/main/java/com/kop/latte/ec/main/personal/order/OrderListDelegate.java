@@ -75,6 +75,7 @@ public class OrderListDelegate extends LatteDelegate {
                 new OrderListDataConverter().setJsonData(s).convert();
             final OrderListAdapter adapter = new OrderListAdapter(date);
             mRvOrderList.setAdapter(adapter);
+            mRvOrderList.addOnItemTouchListener(new OrderListClickListener(OrderListDelegate.this));
           }
 
           @Override public void onError(Throwable e) {

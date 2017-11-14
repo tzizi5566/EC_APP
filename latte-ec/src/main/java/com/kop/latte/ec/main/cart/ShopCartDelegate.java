@@ -40,8 +40,6 @@ import me.yokeyword.fragmentation.SupportHelper;
 public class ShopCartDelegate extends BottomItemDelegate
     implements ShopCartAdapter.OnSelectedAll, ICartItemListener {
 
-  @BindView(R2.id.tv_top_shop_cart_clear) IconTextView mTvTopShopCartClear;
-  @BindView(R2.id.tv_top_shop_cart_remove_selected) IconTextView mTvTopShopCartRemoveSelected;
   @BindView(R2.id.rv_shop_cart) RecyclerView mRvShopCart;
   @BindView(R2.id.icon_shop_cart_select_all) IconTextView mIconShopCartSelectAll;
   @BindView(R2.id.stub_no_item) ViewStubCompat mStubNoItem;
