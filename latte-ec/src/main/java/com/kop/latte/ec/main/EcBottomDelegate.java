@@ -1,6 +1,7 @@
 package com.kop.latte.ec.main;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import com.kop.latte.delegates.bottom.BaseBottomDelegate;
 import com.kop.latte.delegates.bottom.BottomItemDelegate;
 import com.kop.latte.delegates.bottom.BottomTabBean;
@@ -10,6 +11,10 @@ import com.kop.latte.ec.main.discover.DiscoverDelegate;
 import com.kop.latte.ec.main.index.IndexDelegate;
 import com.kop.latte.ec.main.personal.PersonalDelegate;
 import com.kop.latte.ec.main.sort.SortDelegate;
+import com.kop.latte.ui.camera.RequestCodes;
+import com.kop.latte.util.callback.CallbackManager;
+import com.kop.latte.util.callback.CallbackType;
+import com.kop.latte.util.callback.IGlobalCallback;
 import java.util.LinkedHashMap;
 import me.yokeyword.fragmentation.SupportHelper;
 
@@ -57,5 +62,20 @@ public class EcBottomDelegate extends BaseBottomDelegate {
 
   @Override public int setClickedColor() {
     return Color.parseColor("#FFFF8800");
+  }
+
+  @Override public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+    super.onFragmentResult(requestCode, resultCode, data);
+    if (requestCode == RequestCodes.SCAN) {
+      if (data != null) {
+        final String qrCode = data.getString("SCAN_RESULT");
+        @SuppressWarnings("unchecked") final IGlobalCallback<String> callback = CallbackManager
+            .getInstance()
+            .getCallback(CallbackType.ON_SCAN);
+        if (callback != null) {
+          callback.executeCallback(qrCode);
+        }
+      }
+    }
   }
 }

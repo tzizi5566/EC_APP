@@ -8,27 +8,25 @@
       android:protectionLevel="signature"/>
 
   <!-- Required -->
-  <uses-permission android:name="您应用的包名.permission.JPUSH_MESSAGE"/>
+  <uses-permission android:name="com.kop.fastec.permission.JPUSH_MESSAGE"/>
   <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
-  <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"/>
-  <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-  <uses-permission android:name="android.permission.VIBRATE"/>
   <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
   <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
   <!-- Optional. Required for location feature -->
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
   <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
   <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
   <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
   <uses-permission android:name="android.permission.GET_TASKS"/>
+
+  <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+  <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+  <!-- 蓝牙分享所需的权限 -->
+  <uses-permission android:name="android.permission.BLUETOOTH"/>
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
   <application
       android:name=".ExampleApp"
@@ -169,6 +167,38 @@
     <meta-data
         android:name="JPUSH_APPKEY"
         android:value="4a55b606561438c65eef4a93"/>
+
+    <!-- ShareSDK的activity -->
+    <activity
+        android:name="com.mob.tools.MobUIShell"
+        android:configChanges="keyboardHidden|orientation|screenSize"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar"
+        android:windowSoftInputMode="stateHidden|adjustResize">
+
+      <!-- 调用新浪原生SDK，需要注册的回调activity -->
+      <intent-filter>
+        <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+      </intent-filter>
+
+      <!--集成line客户端登录授权，需要添如下格式的过滤器-->
+      <intent-filter>
+        <data android:scheme="line.1477692153"/>
+        <action android:name="android.intent.action.VIEW"/>
+
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+      </intent-filter>
+
+    </activity>
+
+    <!--微信分享回调 -->
+    <activity
+        android:name=".wxapi.WXEntryActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize"
+        android:exported="true"
+        android:screenOrientation="portrait"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
   </application>
 

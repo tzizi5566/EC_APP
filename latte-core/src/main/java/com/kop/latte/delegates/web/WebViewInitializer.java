@@ -12,9 +12,9 @@ import android.webkit.WebView;
  * 创 建 人: KOP
  * 创建日期: 2017/10/13 14:14
  */
-public class WebViewInitializer {
+class WebViewInitializer {
 
-  @SuppressLint("SetJavaScriptEnabled") public WebView createWebView(WebView webView) {
+  @SuppressLint("SetJavaScriptEnabled") WebView createWebView(WebView webView) {
     WebView.setWebContentsDebuggingEnabled(true);
     //cookie
     final CookieManager cookieManager = CookieManager.getInstance();

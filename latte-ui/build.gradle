@@ -42,4 +42,8 @@ dependencies {
   annotationProcessor "com.google.auto.value:auto-value:1.5"
   //ButterKnife
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+  //Animations
+  compile 'com.nineoldandroids:library:2.4.0'
+  compile 'com.daimajia.easing:library:2.0@aar'
+  compile 'com.daimajia.androidanimations:library:2.3@aar'
 }

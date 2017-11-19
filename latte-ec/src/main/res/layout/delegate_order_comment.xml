@@ -28,15 +28,15 @@
         tools:ignore="HardcodedText"
         />
 
-    <android.support.v7.widget.AppCompatTextView
+    <com.joanzapata.iconify.widget.IconTextView
         android:id="@+id/top_tv_comment_commit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginRight="20dp"
-        android:text="提交"
+        android:text="{fa-check}"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="18sp"
         tools:ignore="HardcodedText,RtlHardcoded"
         />
 

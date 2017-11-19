@@ -106,7 +106,15 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
 
     CallbackManager.getInstance()
         .addCallback(CallbackType.SHOP_CART_TO_INDEX, new IGlobalCallback<Integer>() {
-          @Override public void executeCallback(Integer args) {
+          @Override public void executeCallback(@Nullable Integer args) {
+            resetColor();
+
+            View childView = mBottomBar.getChildAt(args);
+            mCurrentDelegate = setItemColor(childView);
+          }
+        })
+        .addCallback(CallbackType.INDEX_TO_SHOP_CART, new IGlobalCallback<Integer>() {
+          @Override public void executeCallback(@Nullable Integer args) {
             resetColor();
 
             View childView = mBottomBar.getChildAt(args);

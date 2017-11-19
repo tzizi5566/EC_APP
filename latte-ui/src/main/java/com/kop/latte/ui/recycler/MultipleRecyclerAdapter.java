@@ -12,7 +12,6 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kop.latte.ui.R;
 import com.kop.latte.ui.banner.BannerCreator;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -72,7 +71,7 @@ public class MultipleRecyclerAdapter
   @Override protected void convert(MultipleViewHolder holder, MultipleItemEntity entity) {
     final String text;
     final String imageUrl;
-    final ArrayList<String> bannerImages;
+    final List<String> bannerImages;
 
     switch (holder.getItemViewType()) {
       case ItemType.TEXT:

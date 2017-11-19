@@ -12,27 +12,32 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Toast;
 import butterknife.BindView;
+import butterknife.OnClick;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.kop.latte.delegates.bottom.BottomItemDelegate;
 import com.kop.latte.ec.R;
 import com.kop.latte.ec.R2;
 import com.kop.latte.ec.main.EcBottomDelegate;
+import com.kop.latte.ec.main.index.search.SearchDelegate;
 import com.kop.latte.ui.recycler.BaseDecoration;
 import com.kop.latte.ui.recycler.RgbValue;
 import com.kop.latte.ui.refresh.RefreshHandler;
-import com.kop.latte.util.log.LatteLogger;
+import com.kop.latte.util.callback.CallbackManager;
+import com.kop.latte.util.callback.CallbackType;
+import com.kop.latte.util.callback.IGlobalCallback;
 
 /**
  * 功    能: //TODO
  * 创 建 人: KOP
  * 创建日期: 2017/10/5 17:40
  */
-public class IndexDelegate extends BottomItemDelegate implements RefreshHandler.OnDataFinish {
+public class IndexDelegate extends BottomItemDelegate
+    implements RefreshHandler.OnDataFinish, View.OnFocusChangeListener {
 
   @BindView(R2.id.rv_index) RecyclerView mRvIndex;
   @BindView(R2.id.srl_index) SwipeRefreshLayout mSrlIndex;
-  @BindView(R2.id.icon_index_scan) IconTextView mIconIndexScan;
   @BindView(R2.id.et_search_view) AppCompatEditText mEtSearchView;
   @BindView(R2.id.icon_index_message) IconTextView mIconIndexMessage;
   @BindView(R2.id.tb_index) Toolbar mTbIndex;
@@ -42,6 +47,11 @@ public class IndexDelegate extends BottomItemDelegate implements RefreshHandler.
   private final RgbValue RGB_VALUE = RgbValue.create(255, 124, 2);
   private int mFirstItemBottom;
   private int mTargetHeight;
+
+  @OnClick(R2.id.icon_index_scan)
+  void onClickScanQrCode() {
+    startScanWithCheck(this.getParentDelegate());
+  }
 
   private void initRefreshLayout() {
     mSrlIndex.setColorSchemeResources(
@@ -77,6 +87,14 @@ public class IndexDelegate extends BottomItemDelegate implements RefreshHandler.
   @Override public void onBindView(@Nullable Bundle savedInstanceState, @Nullable View rootView) {
     mRefreshHandler =
         RefreshHandler.create(getContext(), mSrlIndex, mRvIndex, new IndexDataConverter());
+
+    CallbackManager.getInstance().addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
+      @Override public void executeCallback(@Nullable String args) {
+        Toast.makeText(getContext(), args, Toast.LENGTH_LONG).show();
+      }
+    });
+
+    mEtSearchView.setOnFocusChangeListener(this);
   }
 
   @Override public void onFinish() {
@@ -96,7 +114,6 @@ public class IndexDelegate extends BottomItemDelegate implements RefreshHandler.
                 super.onScrolled(recyclerView, dx, dy);
                 //增加滑动距离
                 mDistanceY += dy;
-                LatteLogger.d(mDistanceY);
                 //当滑动时，并且距离小于toolbar高度的时候，调整渐变色
                 if (mDistanceY > 0 && mDistanceY <= mTargetHeight) {
                   if (!recyclerView.canScrollVertically(-1)) {
@@ -119,5 +136,11 @@ public class IndexDelegate extends BottomItemDelegate implements RefreshHandler.
             mRvIndex.getViewTreeObserver().removeOnGlobalLayoutListener(this);
           }
         });
+  }
+
+  @Override public void onFocusChange(View v, boolean hasFocus) {
+    if (hasFocus) {
+      getParentDelegate().getSupportDelegate().start(new SearchDelegate());
+    }
   }
 }

@@ -33,7 +33,7 @@ public final class LattePreference {
         .apply();
   }
 
-  public static String getAppProfile() {
+  private static String getAppProfile() {
     return getAppPreference().getString(APP_PREFERENCES_KEY, null);
   }
 

@@ -1,11 +1,14 @@
 package com.kop.fastec;
 
-import android.app.Application;
+import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import cn.jpush.android.api.JPushInterface;
 import com.blankj.utilcode.util.Utils;
 import com.facebook.stetho.Stetho;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.kop.fastec.event.ShareEvent;
 import com.kop.fastec.event.TestEvent;
 import com.kop.latte.app.Latte;
 import com.kop.latte.ec.database.DatabaseManager;
@@ -14,6 +17,7 @@ import com.kop.latte.net.rx.AddCookieInterceptor;
 import com.kop.latte.util.callback.CallbackManager;
 import com.kop.latte.util.callback.CallbackType;
 import com.kop.latte.util.callback.IGlobalCallback;
+import com.mob.MobSDK;
 import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
@@ -22,7 +26,7 @@ import me.yokeyword.fragmentation.helper.ExceptionHandler;
  * 创 建 人: KOP
  * 创建日期: 2017/8/7 19:45
  */
-public class ExampleApp extends Application {
+public class ExampleApp extends MultiDexApplication {
 
   @Override public void onCreate() {
     super.onCreate();
@@ -34,6 +38,7 @@ public class ExampleApp extends Application {
         .withInterceptor(new AddCookieInterceptor())//添加cookie同步拦截器
         .withJavascriptInterface("latte")
         .withWebEvent("test", new TestEvent())
+        .withWebEvent("share", new ShareEvent())
         .configure();
 
     //GreenDao
@@ -63,6 +68,8 @@ public class ExampleApp extends Application {
           }
         });
 
+    MobSDK.init(this, "2263b22df5b69", "5a69709a2a789aa591d37c8576537f6e");
+
     initStetho();
 
     Fragmentation.builder()
@@ -89,5 +96,11 @@ public class ExampleApp extends Application {
             .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
             .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
             .build());
+  }
+
+  @Override
+  protected void attachBaseContext(Context context) {
+    super.attachBaseContext(context);
+    MultiDex.install(this);
   }
 }

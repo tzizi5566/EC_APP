@@ -8,6 +8,8 @@ package com.kop.latte.util.callback;
 public enum CallbackType {
   ON_CROP,
   SHOP_CART_TO_INDEX,
+  INDEX_TO_SHOP_CART,
   OPEN_PUSH,
-  STOP_PUSH
+  STOP_PUSH,
+  ON_SCAN
 }
