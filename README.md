@@ -1,7 +1,17 @@
 # EC APP
 仿电商APP
 ### APP GIF
-![cmd-markdown-logo](https://github.com/tzizi5566/FastEC/blob/master/image/ec_app.gif)
+![](https://github.com/tzizi5566/EC_APP/blob/master/art/01.png)
+
+![](https://github.com/tzizi5566/EC_APP/blob/master/art/02.png)
+
+![](https://github.com/tzizi5566/EC_APP/blob/master/art/03.png)
+
+![](https://github.com/tzizi5566/EC_APP/blob/master/art/04.png)
+
+![](https://github.com/tzizi5566/EC_APP/blob/master/art/05.png)
+
+![](https://github.com/tzizi5566/EC_APP/blob/master/art/06.png)
 
 ## License ##
 ``````
