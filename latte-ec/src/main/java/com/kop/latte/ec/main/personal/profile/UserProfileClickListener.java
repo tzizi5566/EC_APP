@@ -18,7 +18,6 @@ import com.kop.latte.ui.date.DateDialogUtil;
 import com.kop.latte.util.callback.CallbackManager;
 import com.kop.latte.util.callback.CallbackType;
 import com.kop.latte.util.callback.IGlobalCallback;
-import com.kop.latte.util.log.LatteLogger;
 
 /**
  * 功    能: //TODO
@@ -48,7 +47,6 @@ public class UserProfileClickListener extends SimpleClickListener {
         CallbackManager.getInstance()
             .addCallback(CallbackType.ON_CROP, new IGlobalCallback<Uri>() {
               @Override public void executeCallback(Uri uri) {
-                LatteLogger.d(uri);
                 final ImageView avatar = (ImageView) view.findViewById(R.id.img_arrow_avatar);
                 Glide.with(DELEGATE)
                     .load(uri)

@@ -19,8 +19,8 @@ public class BannerCreator {
         .setPageIndicator(new int[] { R.drawable.dot_normal, R.drawable.dot_focus })
         .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
         .setOnItemClickListener(clickListener)
-        .setPageTransformer(new DefaultTransformer());
-        //.startTurning(3000)
-        //.setCanLoop(true);
+        .setPageTransformer(new DefaultTransformer())
+        .startTurning(2000)
+        .setCanLoop(true);
   }
 }

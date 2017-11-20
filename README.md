@@ -1,2 +1,2 @@
-# FastEC
+# 电商APP
 电商APP
