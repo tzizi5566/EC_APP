@@ -30,6 +30,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import com.kop.latte.delegates.LatteDelegate;
 import com.kop.latte.ec.R;
 import com.kop.latte.ec.R2;
+import com.kop.latte.ec.main.cart.ShopCartDelegate;
 import com.kop.latte.net.rx.RxRestClient;
 import com.kop.latte.ui.animation.BezierAnimation;
 import com.kop.latte.ui.animation.BezierUtil;
@@ -102,13 +103,13 @@ public class GoodsDetailDelegate extends LatteDelegate implements
   }
 
   @OnClick(R2.id.icon_goods_back)
-  void onClickBack(){
+  void onClickBack() {
     getSupportDelegate().pop();
   }
 
   @OnClick(R2.id.rl_shop_cart)
   void onClickToShopCartDelegate() {
-
+    getSupportDelegate().start(ShopCartDelegate.newInstance(true));
   }
 
   private void setShopCarCount(JSONObject data) {

@@ -12,7 +12,6 @@ import com.kop.latte.ec.R;
 import com.kop.latte.ec.R2;
 import com.kop.latte.ec.main.sort.SortDelegate;
 import com.kop.latte.net.rx.RxRestClient;
-import com.kop.latte.ui.loader.LatteLoader;
 import com.kop.latte.ui.recycler.MultipleItemEntity;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -47,7 +46,6 @@ public class VerticalListDelegate extends LatteDelegate {
   @Override public void onLazyInitView(@Nullable Bundle savedInstanceState) {
     super.onLazyInitView(savedInstanceState);
     RxRestClient.builder()
-        .loader(getContext())
         .url("sort_list_data.json")
         .build()
         .get()
@@ -67,12 +65,11 @@ public class VerticalListDelegate extends LatteDelegate {
           }
 
           @Override public void onError(Throwable e) {
-            LatteLoader.stopLoading();
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
           }
 
           @Override public void onComplete() {
-            LatteLoader.stopLoading();
+
           }
         });
   }

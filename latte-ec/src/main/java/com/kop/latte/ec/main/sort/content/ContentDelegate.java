@@ -11,7 +11,6 @@ import com.kop.latte.delegates.LatteDelegate;
 import com.kop.latte.ec.R;
 import com.kop.latte.ec.R2;
 import com.kop.latte.net.rx.RxRestClient;
-import com.kop.latte.ui.loader.LatteLoader;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -65,7 +64,6 @@ public class ContentDelegate extends LatteDelegate {
 
   public void initData(int contentId) {
     RxRestClient.builder()
-        .loader(getContext())
         .url("sort_content_data_" + contentId + ".json")
         .build()
         .get()
@@ -90,12 +88,11 @@ public class ContentDelegate extends LatteDelegate {
           }
 
           @Override public void onError(Throwable e) {
-            LatteLoader.stopLoading();
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
           }
 
           @Override public void onComplete() {
-            LatteLoader.stopLoading();
+
           }
         });
   }

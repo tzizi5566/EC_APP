@@ -15,6 +15,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.OnClick;
+import com.blankj.utilcode.util.ConvertUtils;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.kop.latte.delegates.bottom.BottomItemDelegate;
 import com.kop.latte.ec.R;
@@ -66,7 +67,8 @@ public class IndexDelegate extends BottomItemDelegate
     final GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
     mRvIndex.setLayoutManager(manager);
     mRvIndex.addItemDecoration(
-        BaseDecoration.create(ContextCompat.getColor(getContext(), R.color.app_background), 5));
+        BaseDecoration.create(ContextCompat.getColor(getContext(), android.R.color.white),
+            ConvertUtils.dp2px(1f)));
     final EcBottomDelegate ecBottomDelegate = getParentDelegate();
     mRvIndex.addOnItemTouchListener(IndexItemClickListener.create(ecBottomDelegate));
   }

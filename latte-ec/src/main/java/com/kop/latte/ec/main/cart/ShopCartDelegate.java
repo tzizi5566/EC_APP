@@ -40,11 +40,21 @@ import me.yokeyword.fragmentation.SupportHelper;
 public class ShopCartDelegate extends BottomItemDelegate
     implements ShopCartAdapter.OnSelectedAll, ICartItemListener {
 
+  public static ShopCartDelegate newInstance(boolean formGoodsDetailDelegate) {
+    Bundle args = new Bundle();
+    args.putBoolean(FROM_GOODS_DATEIL_DELEGATE, formGoodsDetailDelegate);
+    ShopCartDelegate fragment = new ShopCartDelegate();
+    fragment.setArguments(args);
+    return fragment;
+  }
+
   @BindView(R2.id.rv_shop_cart) RecyclerView mRvShopCart;
   @BindView(R2.id.icon_shop_cart_select_all) IconTextView mIconShopCartSelectAll;
   @BindView(R2.id.stub_no_item) ViewStubCompat mStubNoItem;
   @BindView(R2.id.tv_shop_cart_total_price) AppCompatTextView mTvShopCartTotalPrice;
 
+  public static final String FROM_GOODS_DATEIL_DELEGATE = "FROM_GOODS_DATEIL_DELEGATE";
+  private boolean mFromGoodsDetailDelegate;
   private ShopCartAdapter mAdapter;
 
   @OnClick(R2.id.icon_shop_cart_select_all)
@@ -168,6 +178,14 @@ public class ShopCartDelegate extends BottomItemDelegate
     }
   }
 
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Bundle bundle = getArguments();
+    if (bundle != null) {
+      mFromGoodsDetailDelegate = getArguments().getBoolean(FROM_GOODS_DATEIL_DELEGATE);
+    }
+  }
+
   @Override public Object setLayout() {
     return R.layout.delegate_shop_cart;
   }
@@ -246,5 +264,13 @@ public class ShopCartDelegate extends BottomItemDelegate
       }
     }
     mTvShopCartTotalPrice.setText(String.valueOf(totalPrice));
+  }
+
+  @Override public boolean onBackPressedSupport() {
+    if (mFromGoodsDetailDelegate) {
+      getSupportDelegate().pop();
+      return true;
+    }
+    return super.onBackPressedSupport();
   }
 }
