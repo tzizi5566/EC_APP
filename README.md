@@ -1,14 +1,28 @@
-# EC APP
-仿电商APP
-### APP PICS
+## EC APP ##
+<div align="center">
+	<img src="./art/ic_launcher.png" width="128" alt="icon">
+</div>
 
+## APP PICS ##
 |首页|商品详情|分类|
 |:-:|:-:|:-:|
-|./art/01.png|./art/02.png|./art/03.png|
+|![首页](./art/01.png)|![商品详情](./art/02.png)|![分类](./art/03.png)|
 
 |发现|购物车|我的|
 |:-:|:-:|:-:|
-|./art/04.png|./art/05.png|./art/06.png|
+|![发现](./art/04.png)|![购物车](./art/05.png)|![我的](./art/06.png)|
+
+## Highlights ##
+* 项目进行模块化拆分，分为：核心组件、电商组件、UI组件。
+* 单Activity设计。
+* Retrofit2+RxJava2网络框架。
+* Glide4图片加载库。
+* GreenDao数据库。
+* ZBar二维码扫描。
+* JPush极光推送。
+* ShareSDK多平台分享。
+* 发现页面混合开发，WebView封装。
+* MD风格商品详情页面。
 
 ## License ##
 ``````
