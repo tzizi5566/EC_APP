@@ -1,5 +1,6 @@
 package com.kop.latte.ec.detail;
 
+import android.animation.ArgbEvaluator;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -83,6 +84,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
   private int mOffset;
   private String mGoodsThumbUrl;
   private int mShopCount;
+  private ArgbEvaluator mArgbEvaluator;
 
   private static final RequestOptions OPTIONS =
       new RequestOptions()
@@ -124,7 +126,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
   }
 
   @Override public void onBindView(@Nullable Bundle savedInstanceState, @Nullable View rootView) {
-
+    mArgbEvaluator = new ArgbEvaluator();
   }
 
   @Override public void onLazyInitView(@Nullable Bundle savedInstanceState) {
@@ -212,42 +214,10 @@ public class GoodsDetailDelegate extends LatteDelegate implements
   @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
     if (mOffset != 0) {
       float percent = (float) verticalOffset / mOffset;
-      int currentColor = getCurrentColor(percent, mStartColor, mEndColor);
+      int currentColor = (int) mArgbEvaluator.evaluate(percent, mStartColor, mEndColor);
       mTvDetailTitleText.setTextColor(currentColor);
       mIconGoodsBack.setTextColor(currentColor);
     }
-  }
-
-  /**
-   * 根据fraction值来计算当前的颜色。
-   */
-  private int getCurrentColor(float fraction, int startColor, int endColor) {
-    int redCurrent;
-    int blueCurrent;
-    int greenCurrent;
-    int alphaCurrent;
-
-    int redStart = Color.red(startColor);
-    int blueStart = Color.blue(startColor);
-    int greenStart = Color.green(startColor);
-    int alphaStart = Color.alpha(startColor);
-
-    int redEnd = Color.red(endColor);
-    int blueEnd = Color.blue(endColor);
-    int greenEnd = Color.green(endColor);
-    int alphaEnd = Color.alpha(endColor);
-
-    int redDifference = redEnd - redStart;
-    int blueDifference = blueEnd - blueStart;
-    int greenDifference = greenEnd - greenStart;
-    int alphaDifference = alphaEnd - alphaStart;
-
-    redCurrent = (int) (redStart + fraction * redDifference);
-    blueCurrent = (int) (blueStart + fraction * blueDifference);
-    greenCurrent = (int) (greenStart + fraction * greenDifference);
-    alphaCurrent = (int) (alphaStart + fraction * alphaDifference);
-
-    return Color.argb(alphaCurrent, redCurrent, greenCurrent, blueCurrent);
   }
 
   @Override public void onGlobalLayout() {

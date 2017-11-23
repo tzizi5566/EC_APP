@@ -1,17 +1,14 @@
 # EC APP
 仿电商APP
-### APP GIF
-![](https://github.com/tzizi5566/EC_APP/blob/master/art/01.png)
+### APP PICS
 
-![](https://github.com/tzizi5566/EC_APP/blob/master/art/02.png)
+|首页|商品详情|分类|
+|:-:|:-:|:-:|
+|./art/01.png|./art/02.png|./art/03.png|
 
-![](https://github.com/tzizi5566/EC_APP/blob/master/art/03.png)
-
-![](https://github.com/tzizi5566/EC_APP/blob/master/art/04.png)
-
-![](https://github.com/tzizi5566/EC_APP/blob/master/art/05.png)
-
-![](https://github.com/tzizi5566/EC_APP/blob/master/art/06.png)
+|发现|购物车|我的|
+|:-:|:-:|:-:|
+|./art/04.png|./art/05.png|./art/06.png|
 
 ## License ##
 ``````
