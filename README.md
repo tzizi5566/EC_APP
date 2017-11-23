@@ -1,6 +1,6 @@
 ## EC APP ##
 <div align="center">
-	<img src="./art/ic_launcher.png" width="128" alt="icon">
+	<img src="./art/ic_launcher.png" alt="icon">
 </div>
 
 ## APP PICS ##
