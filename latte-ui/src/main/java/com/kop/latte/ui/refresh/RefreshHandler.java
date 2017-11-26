@@ -13,7 +13,6 @@ import com.kop.latte.ui.loader.LatteLoader;
 import com.kop.latte.ui.recycler.DataConverter;
 import com.kop.latte.ui.recycler.MultipleItemEntity;
 import com.kop.latte.ui.recycler.MultipleRecyclerAdapter;
-import com.kop.latte.util.log.LatteLogger;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -34,16 +33,6 @@ public class RefreshHandler
   private final RecyclerView RECYCLERVIEW;
   private MultipleRecyclerAdapter mAdapter;
   private final DataConverter CONVERTER;
-
-  public interface OnDataFinish {
-    void onFinish();
-  }
-
-  private OnDataFinish mOnDataFinish;
-
-  public void setOnDataFinish(OnDataFinish onDataFinish) {
-    mOnDataFinish = onDataFinish;
-  }
 
   private RefreshHandler(Context context, SwipeRefreshLayout refreshLayout,
       RecyclerView recyclerView,
@@ -91,9 +80,6 @@ public class RefreshHandler
             mAdapter.setOnLoadMoreListener(RefreshHandler.this, RECYCLERVIEW);
             RECYCLERVIEW.setAdapter(mAdapter);
             BEAN.addIndex();
-            if (mOnDataFinish != null) {
-              mOnDataFinish.onFinish();
-            }
           }
 
           @Override public void onError(Throwable e) {

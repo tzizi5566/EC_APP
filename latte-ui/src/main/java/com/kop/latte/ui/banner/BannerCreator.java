@@ -20,7 +20,7 @@ public class BannerCreator {
         .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
         .setOnItemClickListener(clickListener)
         .setPageTransformer(new DefaultTransformer())
-        .startTurning(2000)
+        .startTurning(3000)
         .setCanLoop(true);
   }
 }

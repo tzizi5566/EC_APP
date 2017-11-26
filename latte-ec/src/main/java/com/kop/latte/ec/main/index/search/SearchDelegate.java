@@ -29,6 +29,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.List;
+import me.yokeyword.fragmentation.anim.DefaultVerticalAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 /**
  * 功    能: //TODO
@@ -127,5 +129,9 @@ public class SearchDelegate extends LatteDelegate {
       }
     });
     mRvSearch.addItemDecoration(itemDecoration);
+  }
+
+  @Override public FragmentAnimator onCreateFragmentAnimator() {
+    return new DefaultVerticalAnimator();
   }
 }

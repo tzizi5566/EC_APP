@@ -23,11 +23,12 @@
   <android.support.v7.widget.Toolbar
       android:id="@+id/tb_index"
       android:layout_width="match_parent"
-      android:layout_height="70dp"
-      android:background="@android:color/transparent"
+      android:layout_height="@dimen/header_height"
+      android:background="@color/app_main"
       android:paddingTop="@dimen/statusbar_view_height"
       android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
       app:contentInsetStart="0dp"
+      app:layout_behavior="com.kop.latte.ec.main.index.TranslucentBehavior"
       app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
       >
 
@@ -55,11 +56,11 @@
           android:layout_height="30dp"
           android:layout_gravity="center"
           android:layout_weight="4"
-          android:background="@android:color/white"
+          android:background="@drawable/border_search"
           android:gravity="center_vertical"
           android:hint="搜索"
           android:paddingLeft="5dp"
-          android:textSize="16sp"
+          android:textSize="14sp"
           tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry"
           />
 

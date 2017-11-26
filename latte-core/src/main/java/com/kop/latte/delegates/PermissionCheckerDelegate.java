@@ -31,7 +31,11 @@ import permissions.dispatcher.RuntimePermissions;
 public abstract class PermissionCheckerDelegate extends BaseDelegate {
 
   //不是直接调用方法
-  @NeedsPermission(Manifest.permission.CAMERA)
+  @NeedsPermission({
+      Manifest.permission.CAMERA,
+      Manifest.permission.WRITE_EXTERNAL_STORAGE,
+      Manifest.permission.READ_EXTERNAL_STORAGE
+  })
   void startCamera() {
     LatteCamera.start(this);
   }
