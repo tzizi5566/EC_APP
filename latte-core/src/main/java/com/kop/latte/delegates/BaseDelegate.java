@@ -37,10 +37,11 @@ public abstract class BaseDelegate extends Fragment implements ISupportFragment 
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     final View rootView;
-    if (setLayout() instanceof Integer) {
-      rootView = inflater.inflate((int) setLayout(), container, false);
-    } else if (setLayout() instanceof View) {
-      rootView = (View) setLayout();
+    Object obj = setLayout();
+    if (obj instanceof Integer) {
+      rootView = inflater.inflate((int) obj, container, false);
+    } else if (obj instanceof View) {
+      rootView = (View) obj;
     } else {
       throw new ClassCastException("type of setLayout() must be int or View!");
     }
@@ -110,10 +111,10 @@ public abstract class BaseDelegate extends Fragment implements ISupportFragment 
   @Override
   public void onDestroyView() {
     DELEGATE.onDestroyView();
-    super.onDestroyView();
     if (mUnbinder != null) {
       mUnbinder.unbind();
     }
+    super.onDestroyView();
   }
 
   @Override

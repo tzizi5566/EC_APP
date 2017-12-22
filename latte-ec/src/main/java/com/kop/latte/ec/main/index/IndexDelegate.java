@@ -88,13 +88,10 @@ public class IndexDelegate extends BottomItemDelegate implements View.OnFocusCha
     });
 
     mEtSearchView.setOnFocusChangeListener(this);
-  }
 
-  @Override
-  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    final Toolbar toolbar = view.findViewById(R.id.tb_index);
-    toolbar.getBackground().setAlpha(0);
+    //使用getBackground().setAlpha，导致其他布局背景透明度都改变的问题
+    //http://blog.csdn.net/myatlantis/article/details/49336587
+    mTbIndex.getBackground().mutate().setAlpha(0);
   }
 
   @Override public void onFocusChange(View v, boolean hasFocus) {

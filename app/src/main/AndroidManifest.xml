@@ -45,6 +45,16 @@
       </intent-filter>
     </activity>
 
+    <provider
+        android:name="android.support.v4.content.FileProvider"
+        android:authorities="com.kop.fastec.fileprovider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+      <meta-data
+          android:name="android.support.FILE_PROVIDER_PATHS"
+          android:resource="@xml/file_paths"/>
+    </provider>
+
     <!-- Required SDK 核心功能-->
     <!-- 可配置android:process参数将PushService放在其他进程中 -->
     <service
