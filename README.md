@@ -3,6 +3,9 @@
 	<img src="./art/ic_launcher.png" alt="icon">
 </div>
 
+## APP APK ##
+[![Github All Releases](https://img.shields.io/github/downloads/atom/atom/total.svg)](https://www.pgyer.com/nIfz)
+
 ## APP PICS ##
 |首页|商品详情|分类|
 |:-:|:-:|:-:|
