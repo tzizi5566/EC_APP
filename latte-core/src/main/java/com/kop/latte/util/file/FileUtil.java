@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.webkit.MimeTypeMap;
 import android.widget.TextView;
 import com.kop.latte.app.Latte;
@@ -365,5 +366,17 @@ public final class FileUtil {
       }
     }
     return data;
+  }
+
+  public static Uri uriFromFile(Context context, File file) {
+    Uri fileUri;
+    //7.0以上进行适配
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      String p = "com.kop.fastec.fileprovider";
+      fileUri = FileProvider.getUriForFile(context, p, file);
+    } else {
+      fileUri = Uri.fromFile(file);
+    }
+    return fileUri;
   }
 }

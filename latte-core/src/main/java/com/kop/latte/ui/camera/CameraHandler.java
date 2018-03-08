@@ -1,6 +1,5 @@
 package com.kop.latte.ui.camera;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,9 +11,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import com.blankj.utilcode.util.FileUtils;
 import com.kop.latte.R;
-import com.kop.latte.app.Latte;
 import com.kop.latte.delegates.PermissionCheckerDelegate;
 import com.kop.latte.util.file.FileUtil;
 import java.io.File;
@@ -66,17 +63,11 @@ public class CameraHandler implements View.OnClickListener {
 
     //兼容7.0
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-      final ContentValues contentValues = new ContentValues(1);
-      contentValues.put(MediaStore.Images.Media.DATA, tempFile.getPath());
-      final Uri uri = DELEGATE.getContext()
-          .getContentResolver()
-          .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-      //需要将Uri路径转化为真实路劲
-      final File realFile =
-          FileUtils.getFileByPath(FileUtil.getRealFilePath(Latte.getApplicationContext(), uri));
-      final Uri realUri = Uri.fromFile(realFile);
-      CameraImageBean.getInstance().setPath(realUri);
-      intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+      final Uri realFileUri = Uri.fromFile(tempFile);
+      Uri fileProviderUri = FileUtil.uriFromFile(DELEGATE.getContext(), tempFile);
+
+      CameraImageBean.getInstance().setPath(realFileUri);
+      intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProviderUri);
     } else {
       final Uri uri = Uri.fromFile(tempFile);
       CameraImageBean.getInstance().setPath(uri);
