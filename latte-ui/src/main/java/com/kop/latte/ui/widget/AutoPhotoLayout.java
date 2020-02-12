@@ -68,14 +68,11 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
 
   public AutoPhotoLayout(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
-    final TypedArray typedArray =
-        context.obtainStyledAttributes(attrs, R.styleable.AutoPhotoLayout);
+    final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AutoPhotoLayout);
     mMaxNum = typedArray.getInt(R.styleable.AutoPhotoLayout_max_count, 1);
     mMaxLineNum = typedArray.getInt(R.styleable.AutoPhotoLayout_line_count, 3);
-    mImageMargin =
-        typedArray.getDimension(R.styleable.AutoPhotoLayout_item_margin, ConvertUtils.sp2px(0f));
-    mIconSize =
-        typedArray.getDimension(R.styleable.AutoPhotoLayout_icon_size, ConvertUtils.sp2px(20f));
+    mImageMargin = typedArray.getDimension(R.styleable.AutoPhotoLayout_item_margin, ConvertUtils.sp2px(0f));
+    mIconSize = typedArray.getDimension(R.styleable.AutoPhotoLayout_icon_size, ConvertUtils.sp2px(20f));
     typedArray.recycle();
   }
 
